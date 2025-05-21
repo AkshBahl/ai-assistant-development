@@ -78,6 +78,19 @@ export function AssistantDashboard() {
     }
   }, [selectedThreadId]);
 
+  // Ensure there is always a valid selected thread
+  useEffect(() => {
+    if (!threads.length || !threads.find((t: Thread) => t.id === selectedThreadId)) {
+      const newThread = {
+        id: uuidv4(),
+        name: "New Chat",
+        messages: [],
+      };
+      setThreads([newThread]);
+      setSelectedThreadId(newThread.id);
+    }
+  }, [threads, selectedThreadId]);
+
   const handleNewChat = () => {
     const newThread: Thread = {
       id: uuidv4(),
